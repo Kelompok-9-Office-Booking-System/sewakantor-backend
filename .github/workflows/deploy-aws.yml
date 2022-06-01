@@ -84,5 +84,5 @@ jobs:
             docker rmi rofiksupriant/office-order:latest rofiksupriant/office-order-coverage:latest
             docker pull rofiksupriant/office-order:latest
             docker pull rofiksupriant/office-order-coverage:latest
-            docker run -d --rm --name office-order-coverage -p 8000:8000 rofiksupriant/office-order-coverage:latest
-            docker run -d --rm --name office-order -p 80:80 --env-file=dev.env --network kampus_merdeka rofiksupriant/office-order:latest
+            docker run -d --rm --name office-order-coverage -p 8000:80 rofiksupriant/office-order-coverage:latest
+            docker run -d --rm --name office-order -p 80:8080 --env-file=dev.env --network kampus_merdeka rofiksupriant/office-order:latest
