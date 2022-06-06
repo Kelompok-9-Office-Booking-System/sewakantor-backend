@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -13,9 +12,8 @@ import javax.validation.constraints.NotNull;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@MappedSuperclass
-public class LoginRequest {
-    @NotNull(message = "password must not be null")
-    @NotBlank(message = "password name must not be blank")
-    private String password;
+public class AdminLoginRequest extends LoginRequest {
+    @NotNull(message = "username must not be null")
+    @NotBlank(message = "username name must not be blank")
+    private String username;
 }
