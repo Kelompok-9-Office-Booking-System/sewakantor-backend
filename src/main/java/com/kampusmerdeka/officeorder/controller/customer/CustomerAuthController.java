@@ -1,6 +1,7 @@
-package com.kampusmerdeka.officeorder.controller;
+package com.kampusmerdeka.officeorder.controller.customer;
 
-import com.kampusmerdeka.officeorder.dto.request.LoginRequest;
+import com.kampusmerdeka.officeorder.dto.request.CustomerLoginRequest;
+import com.kampusmerdeka.officeorder.dto.request.RegisterRequest;
 import com.kampusmerdeka.officeorder.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +15,18 @@ import javax.validation.Valid;
 
 @Validated
 @RestController
-@RequestMapping(value = "/v1/auth")
-public class AuthController {
+@RequestMapping(value = "/v1/customer/auth")
+public class CustomerAuthController {
     @Autowired
     private AuthService authService;
 
     @PostMapping(value = "login")
-    public ResponseEntity<Object> login(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<Object> login(@Valid @RequestBody CustomerLoginRequest request) {
         return authService.login(request);
+    }
+
+    @PostMapping(value = "register")
+    public ResponseEntity<Object> register(@Valid @RequestBody RegisterRequest request) {
+        return authService.register(request);
     }
 }

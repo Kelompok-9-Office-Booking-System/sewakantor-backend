@@ -1,7 +1,7 @@
 package com.kampusmerdeka.officeorder.service;
 
-import com.kampusmerdeka.officeorder.entity.Customer;
 import com.kampusmerdeka.officeorder.entity.Admin;
+import com.kampusmerdeka.officeorder.entity.Customer;
 import com.kampusmerdeka.officeorder.repository.CustomerRepository;
 import com.kampusmerdeka.officeorder.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +29,7 @@ public class CustomUserDetailService implements UserDetailsService {
             Customer customer = customerRepository.findByEmail(username).orElse(null);
             if (customer == null) throw new UsernameNotFoundException(String.format("User %s not found", username));
 
+            password = customer.getPassword();
             role = Admin.Role.CUSTOMER.name();
         } else {
             Admin user = userRepository.findByUsername(username).orElse(null);
