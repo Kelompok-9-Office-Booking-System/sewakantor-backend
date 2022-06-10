@@ -1,18 +1,23 @@
 package com.kampusmerdeka.officeorder.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 
+@Entity
 @Getter
 @Setter
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
-@Entity
-@Table(name = "admin")
-public class Admin extends BaseEntity {
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "user_type")
+@Table(name = "users")
+public abstract class User extends BaseEntity {
     public enum Role {
         SUPERADMIN,
         SUPERVISOR,
@@ -20,15 +25,13 @@ public class Admin extends BaseEntity {
         CUSTOMER
     }
 
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    @Column(name = "username", unique = true, nullable = false)
-    private String username;
-
     @Column(name = "password", nullable = false)
     private String password;
 
     @Enumerated
+    @Column(name = "role", nullable = false)
     private Role role;
+
+    @Column(name = "avatar")
+    private String avatar;
 }

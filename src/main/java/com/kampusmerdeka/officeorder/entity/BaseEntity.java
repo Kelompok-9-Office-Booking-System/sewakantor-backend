@@ -23,7 +23,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @SuperBuilder
 @MappedSuperclass
-public class BaseEntity implements Serializable {
+public abstract class BaseEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -5962497504545932145L;

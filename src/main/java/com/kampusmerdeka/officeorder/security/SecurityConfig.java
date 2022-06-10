@@ -1,6 +1,6 @@
 package com.kampusmerdeka.officeorder.security;
 
-import com.kampusmerdeka.officeorder.entity.Admin;
+import com.kampusmerdeka.officeorder.entity.User;
 import com.kampusmerdeka.officeorder.service.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -55,8 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/v2/api-docs/**", "/configuration/**", "/swagger*/**", "/webjars/**", "/swagger-ui/**", "/v1/**/auth/**").permitAll()
-                .antMatchers("/v1/customer/**").hasRole(Admin.Role.CUSTOMER.name())
-                .antMatchers("/v1/admin/**").hasAnyRole(Admin.Role.SUPERADMIN.name(), Admin.Role.SUPERVISOR.name(), Admin.Role.CONSULTANT.name())
+                .antMatchers("/v1/customer/**").hasRole(User.Role.CUSTOMER.name())
+                .antMatchers("/v1/admin/**").hasAnyRole(User.Role.SUPERADMIN.name(), User.Role.SUPERVISOR.name(), User.Role.CONSULTANT.name())
                 .anyRequest().authenticated()
 
                 .and()

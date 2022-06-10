@@ -5,8 +5,9 @@ import com.kampusmerdeka.officeorder.dto.request.AdminLoginRequest;
 import com.kampusmerdeka.officeorder.dto.request.CustomerLoginRequest;
 import com.kampusmerdeka.officeorder.dto.request.LoginRequest;
 import com.kampusmerdeka.officeorder.dto.request.RegisterRequest;
-import com.kampusmerdeka.officeorder.entity.Admin;
-import com.kampusmerdeka.officeorder.entity.Customer;
+import com.kampusmerdeka.officeorder.entity.User;
+import com.kampusmerdeka.officeorder.entity.UserAdmin;
+import com.kampusmerdeka.officeorder.entity.UserCustomer;
 import com.kampusmerdeka.officeorder.repository.CustomerRepository;
 import com.kampusmerdeka.officeorder.repository.UserRepository;
 import com.kampusmerdeka.officeorder.security.TokenProvider;
@@ -61,7 +62,7 @@ public class AuthService {
 
             String token = tokenProvider.generateToken(userDetails);
 
-            Admin.Role role = Admin.Role.valueOf(userDetails.getAuthorities().stream().findFirst().get().toString());
+            User.Role role = User.Role.valueOf(userDetails.getAuthorities().stream().findFirst().get().toString());
             LoginResponse response = LoginResponse.builder()
                     .tokenType("Bearer")
                     .token(token)
@@ -87,13 +88,13 @@ public class AuthService {
 
         try {
             String authority = grantedAuthority.get().toString();
-            if (authority.equals(Admin.Role.CUSTOMER.name())) {
-                Optional<Customer> customerOptional = customerRepository.findByEmail(username);
+            if (authority.equals(User.Role.CUSTOMER.name())) {
+                Optional<UserCustomer> customerOptional = customerRepository.findByEmail(username);
 
                 if (customerOptional.isEmpty()) throw new AuthorizationServiceException("Unauthorized");
                 return (T) customerOptional.get();
             } else {
-                Optional<Admin> userOptional = userRepository.findByUsername(username);
+                Optional<UserAdmin> userOptional = userRepository.findByUsername(username);
 
                 if (userOptional.isEmpty()) throw new AuthorizationServiceException("Unauthorized");
                 return (T) userOptional.get();
@@ -106,23 +107,25 @@ public class AuthService {
     }
 
     public ResponseEntity<Object> register(RegisterRequest request) {
-        Optional<Customer> customerOptionalByEmail = customerRepository.findByEmail(request.getEmail());
+        Optional<UserCustomer> customerOptionalByEmail = customerRepository.findByEmail(request.getEmail());
         if (customerOptionalByEmail.isPresent())
             return ResponseUtil.badRequest("email sudah digunakan");
 
-        Customer customer = Customer.builder()
+
+        UserCustomer userCustomer = UserCustomer.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .role(User.Role.CUSTOMER)
                 .build();
 
-        customer = customerRepository.saveAndFlush(customer);
+        userCustomer = customerRepository.saveAndFlush(userCustomer);
 
-        UserDetails userDetails = userDetailService.loadUserByUsername(customer.getEmail());
+        UserDetails userDetails = userDetailService.loadUserByUsername(userCustomer.getEmail());
         String token = tokenProvider.generateToken(userDetails);
 
-        Admin.Role role = Admin.Role.valueOf(userDetails.getAuthorities().stream().findFirst().get().toString());
+        User.Role role = User.Role.valueOf(userDetails.getAuthorities().stream().findFirst().get().toString());
         LoginResponse response = LoginResponse.builder()
                 .tokenType("Bearer")
                 .token(token)

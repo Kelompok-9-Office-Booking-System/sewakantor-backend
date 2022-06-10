@@ -23,7 +23,7 @@ public class Review extends BaseEntity{
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    private Customer customer;
+    private UserCustomer userCustomer;
 
     @Column(name = "star")
     private Integer star;
