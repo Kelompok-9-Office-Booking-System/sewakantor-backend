@@ -14,7 +14,7 @@ import javax.persistence.*;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@DiscriminatorValue("CUSTOMER")
+@DiscriminatorValue(value = "CUSTOMER")
 @PrimaryKeyJoinColumn(name = "user_id", referencedColumnName = "id")
 @Table(name = "customers")
 public class UserCustomer extends User {

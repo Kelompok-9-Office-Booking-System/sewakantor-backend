@@ -27,11 +27,20 @@ public class Unit extends BaseEntity{
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "capacity")
     private Integer capacity;
+
+    @Column(name = "length")
+    private Integer length;
+
+    @Column(name = "width")
+    private Integer width;
+
+    @Column(name = "height")
+    private Integer height;
 
     @Enumerated
     private Type type;

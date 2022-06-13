@@ -11,7 +11,7 @@ import javax.persistence.*;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@DiscriminatorValue("ADMIN")
+@DiscriminatorValue(value = "ADMIN")
 @PrimaryKeyJoinColumn(name = "user_id", referencedColumnName = "id")
 @Table(name = "admin")
 public class UserAdmin extends User {
