@@ -24,7 +24,7 @@ public class Unit extends BaseEntity{
         VIRTUAL_ROOM
     }
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "description", columnDefinition = "TEXT")
