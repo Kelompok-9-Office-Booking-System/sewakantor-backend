@@ -17,12 +17,12 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Entity
 @Table(name = "complexes")
-public class Complex extends BaseEntity{
+public class Complex extends BaseEntity {
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "image_path")
