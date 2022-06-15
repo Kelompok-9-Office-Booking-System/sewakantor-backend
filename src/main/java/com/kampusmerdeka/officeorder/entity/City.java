@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Getter
 @Setter
@@ -14,19 +16,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "complexes")
-public class Complex extends BaseEntity {
+@Table(name = "cities")
+public class City extends BaseEntity {
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;
-
-    @Column(name = "description", columnDefinition = "TEXT")
-    private String description;
-
-    @Column(name = "image_path")
-    private String imagePath;
-
-    @ManyToOne
-    @JoinColumn(name = "city_id")
-    private City city;
 }
