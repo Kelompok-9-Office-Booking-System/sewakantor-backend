@@ -2,6 +2,7 @@ package com.kampusmerdeka.officeorder.service;
 
 import com.kampusmerdeka.officeorder.constant.FileDirectoryConstant;
 import com.kampusmerdeka.officeorder.dto.repsonse.ComplexResponse;
+import com.kampusmerdeka.officeorder.dto.repsonse.DropdownResponse;
 import com.kampusmerdeka.officeorder.dto.request.ComplexRequest;
 import com.kampusmerdeka.officeorder.entity.City;
 import com.kampusmerdeka.officeorder.entity.Complex;
@@ -119,5 +120,18 @@ public class ComplexService {
                 .cityId(complex.getCity().getId())
                 .city(complex.getCity().getName())
                 .build();
+    }
+
+    public ResponseEntity<Object> dropdown() {
+        List<DropdownResponse> result = new ArrayList<>();
+        complexRepository.findAll().forEach(complex ->
+                result.add(DropdownResponse.builder()
+                        .value(complex.getId())
+                        .label(complex.getName())
+                        .build())
+        );
+
+        return ResponseUtil.ok("dropdown complex", result);
+
     }
 }
