@@ -12,8 +12,6 @@ jobs:
     steps:
       - run: echo "Unit Test Running..."
       - uses: actions/checkout@v3
-      - name: Create Folder
-        run: mkdir /officeorder
       - name: Setup JDK 17
         uses: actions/setup-java@v3
         with:
