@@ -19,4 +19,7 @@ public class Facility extends BaseEntity{
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;
+
+    @Column(name = "icon")
+    private String icon;
 }
