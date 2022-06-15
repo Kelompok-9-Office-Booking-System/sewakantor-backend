@@ -90,3 +90,20 @@ INSERT INTO reviews(unit_id, customer_id, star) VALUES (5, 5, 5);
 INSERT INTO reviews(unit_id, customer_id, star) VALUES (5, 6, 4);
 INSERT INTO reviews(unit_id, customer_id, star) VALUES (5, 7, 5);
 INSERT INTO reviews(unit_id, customer_id, star) VALUES (5, 8, 5);
+
+INSERT INTO facilities (name) VALUES ('Free Snack');
+INSERT INTO facilities (name) VALUES ('Business Lounge');
+INSERT INTO facilities (name) VALUES ('Free Area');
+INSERT INTO facilities (name) VALUES ('Downtown');
+INSERT INTO facilities (name) VALUES ('Free Area');
+
+INSERT INTO building_facilities (building_id, facility_id) VALUES (1, 1);
+INSERT INTO building_facilities (building_id, facility_id) VALUES (1, 2);
+INSERT INTO building_facilities (building_id, facility_id) VALUES (1, 3);
+INSERT INTO building_facilities (building_id, facility_id) VALUES (1, 4);
+INSERT INTO building_facilities (building_id, facility_id) VALUES (1, 5);
+
+INSERT INTO building_facilities (building_id, facility_id) VALUES (2, 1);
+INSERT INTO building_facilities (building_id, facility_id) VALUES (2, 2);
+INSERT INTO building_facilities (building_id, facility_id) VALUES (2, 3);
+INSERT INTO building_facilities (building_id, facility_id) VALUES (2, 4);
