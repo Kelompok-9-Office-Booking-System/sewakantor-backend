@@ -16,7 +16,9 @@ INSERT INTO customers (user_id, first_name, last_name, email) VALUES (6, 'Custom
 INSERT INTO customers (user_id, first_name, last_name, email) VALUES (7, 'Customer', '3', 'customer3@mail.com');
 INSERT INTO customers (user_id, first_name, last_name, email) VALUES (8, 'Customer', '4', 'customer4@mail.com');
 
-INSERT INTO complexes (name, description) VALUES ('Anggrek Permai', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse blandit a sem sit amet tincidunt. Donec sit amet leo sit amet urna viverra sagittis. Morbi neque purus, volutpat sit amet augue eget, finibus faucibus lacus. Sed sed metus sit amet turpis gravida vulputate.');
+INSERT INTO cities (name) VALUES ('Jakarta');
+
+INSERT INTO complexes (city_id, name, description) VALUES (1, 'Anggrek Permai', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse blandit a sem sit amet tincidunt. Donec sit amet leo sit amet urna viverra sagittis. Morbi neque purus, volutpat sit amet augue eget, finibus faucibus lacus. Sed sed metus sit amet turpis gravida vulputate.');
 
 INSERT INTO buildings (complex_id, name, address, description) VALUES (1, 'BCA Tower', '50/F, Menara BCA Grand Indonesia, Jakarta, 10310', 'Enjoy stunning views from the 50th floor of BCA Tower, located across the street from the famous Bundaran Hotel Indonesia (Bundaran HI). Widely regarded as the centre of Jakarta, the area offers excellent public transport and a supportive business environment.');
 INSERT INTO buildings (complex_id, name, address, description) VALUES (1, 'Menara Astra', 'Menara Astra, 37th Floor. Jl. Jend. Sudirman Kav. 5-6, Jakarta, 10220', 'Enjoy the stunning view from from the 50th floor of BCA Tower, located across the street from the famous Bundaran Hotel Indonesia (Bundaran HI). Widely regarded as the center of Jakarta.');

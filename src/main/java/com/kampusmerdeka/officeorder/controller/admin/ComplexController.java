@@ -25,12 +25,17 @@ public class ComplexController {
     }
 
     @PutMapping(value = "{id}")
-    public ResponseEntity<Object> updateOne(@PathVariable(name = "id") Long id,@Valid @ModelAttribute ComplexRequest request) {
+    public ResponseEntity<Object> updateOne(@PathVariable(name = "id") Long id, @Valid @ModelAttribute ComplexRequest request) {
         return complexService.updateOne(id, request);
     }
 
     @DeleteMapping(value = "{id}")
     public ResponseEntity<Object> deleteOne(@PathVariable(name = "id") Long id) {
         return complexService.deleteOne(id);
+    }
+
+    @GetMapping(value = "{id}")
+    public ResponseEntity<Object> getOne(@PathVariable(name = "id") Long id) {
+        return complexService.getOne(id);
     }
 }

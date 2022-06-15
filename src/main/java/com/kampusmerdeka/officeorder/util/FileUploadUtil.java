@@ -15,8 +15,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 
-@Component
 @Slf4j
+@Component
 public class FileUploadUtil {
     private static Path fileStorageLocation;
 
