@@ -38,4 +38,9 @@ public class ComplexController {
     public ResponseEntity<Object> getOne(@PathVariable(name = "id") Long id) {
         return complexService.getOne(id);
     }
+
+    @GetMapping(value = "dropdown")
+    public ResponseEntity<Object> dropdown() {
+        return complexService.dropdown();
+    }
 }
