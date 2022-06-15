@@ -93,7 +93,7 @@ INSERT INTO reviews(unit_id, customer_id, star) VALUES (5, 8, 5);
 
 INSERT INTO facilities (name) VALUES ('Free Snack');
 INSERT INTO facilities (name) VALUES ('Business Lounge');
-INSERT INTO facilities (name) VALUES ('Free Area');
+INSERT INTO facilities (name) VALUES ('Parking Area');
 INSERT INTO facilities (name) VALUES ('Downtown');
 INSERT INTO facilities (name) VALUES ('Free Area');
 
