@@ -15,7 +15,7 @@ import javax.validation.Valid;
 @Validated
 @RestController
 @RequestMapping(value = "/v1/admin/auth")
-public class AdminAuthController {
+public class AuthController {
     @Autowired
     private AuthService authService;
 

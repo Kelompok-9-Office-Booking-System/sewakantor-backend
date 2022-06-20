@@ -33,14 +33,14 @@ public class Unit extends BaseEntity{
     @Column(name = "capacity")
     private Integer capacity;
 
-    @Column(name = "length")
-    private Integer length;
+    @Column(name = "length", precision = 1)
+    private Double length;
 
-    @Column(name = "width")
-    private Integer width;
+    @Column(name = "width", precision = 1)
+    private Double width;
 
-    @Column(name = "height")
-    private Integer height;
+    @Column(name = "height", precision = 1)
+    private Double height;
 
     @Enumerated
     private Type type;
