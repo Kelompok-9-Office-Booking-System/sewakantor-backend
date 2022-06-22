@@ -31,4 +31,8 @@ public class UserCustomer extends User {
     @Column(name = "phone")
     private String phone;
 
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Conversation conversation;
+
 }
