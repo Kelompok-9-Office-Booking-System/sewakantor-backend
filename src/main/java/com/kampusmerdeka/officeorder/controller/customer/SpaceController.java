@@ -1,7 +1,5 @@
 package com.kampusmerdeka.officeorder.controller.customer;
 
-import com.kampusmerdeka.officeorder.repository.ComplexRepository;
-import com.kampusmerdeka.officeorder.repository.UnitRepository;
 import com.kampusmerdeka.officeorder.service.SpaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("v1/customer/spaces")
-public class CustomerSpaceController {
+public class SpaceController {
     @Autowired
     private SpaceService spaceService;
 

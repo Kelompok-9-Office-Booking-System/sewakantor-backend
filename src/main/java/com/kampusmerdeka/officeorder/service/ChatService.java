@@ -1,5 +1,6 @@
 package com.kampusmerdeka.officeorder.service;
 
+import com.kampusmerdeka.officeorder.dto.repsonse.ConversationResponse;
 import com.kampusmerdeka.officeorder.dto.repsonse.MessageResponse;
 import com.kampusmerdeka.officeorder.dto.request.MessageRequest;
 import com.kampusmerdeka.officeorder.entity.Conversation;
@@ -7,6 +8,8 @@ import com.kampusmerdeka.officeorder.entity.Message;
 import com.kampusmerdeka.officeorder.entity.UserCustomer;
 import com.kampusmerdeka.officeorder.repository.ConversationRepository;
 import com.kampusmerdeka.officeorder.repository.MessageRepository;
+import com.kampusmerdeka.officeorder.util.FileDownloadUtil;
+import com.kampusmerdeka.officeorder.util.Helpers;
 import com.kampusmerdeka.officeorder.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +32,24 @@ public class ChatService {
     public ResponseEntity<Object> getCount() {
         UserCustomer me = authService.me();
 
-        return ResponseUtil.ok("count message", ((Collection) messageRepository.findByConversationAndIsReadFalse(me)).size());
+        return ResponseUtil.ok("count message", ((Collection) messageRepository.findByConversationIdAndIsReadFalse(me.getId())).size());
     }
 
-    public ResponseEntity<Object> getAll() {
+    public ResponseEntity<Object> getConversations() {
+        List<ConversationResponse> result = new ArrayList<>();
+        conversationRepository.getConversations().forEach(conversationResponse -> {
+            if (conversationResponse.getSenderAvatar() != null)
+                conversationResponse.setSenderAvatar(
+                        Helpers.resourceToBase64(FileDownloadUtil.getFileAsResource(conversationResponse.getSenderAvatar()))
+                );
+
+            result.add(conversationResponse);
+        });
+
+        return ResponseUtil.ok("list conversation", result);
+    }
+
+    public ResponseEntity<Object> getMessages() {
         UserCustomer me = authService.me();
 
         Iterable<Message> messageIterable = messageRepository.findByConversationId(me.getId());
@@ -76,7 +93,7 @@ public class ChatService {
                 .me(message.getConversation().getCustomer().equals(me))
                 .text(message.getText())
                 .isRead(message.getIsRead())
-                .unixTime(message.getCreatedAt().toEpochMilli())
+                .unixTime(message.getCreatedAt())
                 .build();
     }
 

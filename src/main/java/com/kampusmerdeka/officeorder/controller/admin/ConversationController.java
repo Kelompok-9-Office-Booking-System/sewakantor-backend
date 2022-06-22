@@ -1,4 +1,4 @@
-package com.kampusmerdeka.officeorder.controller.customer;
+package com.kampusmerdeka.officeorder.controller.admin;
 
 import com.kampusmerdeka.officeorder.dto.request.MessageRequest;
 import com.kampusmerdeka.officeorder.service.ChatService;
@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("v1/customer/chats")
-public class CustomerChatController {
+@RequestMapping("v1/admin/conversations")
+public class ConversationController {
     @Autowired
     private ChatService chatService;
 
     @GetMapping
-    public ResponseEntity<Object> getAllMessages() {
-        return chatService.getAll();
+    public ResponseEntity<Object> getAllConversation() {
+        return chatService.getConversations();
     }
 
     @PostMapping

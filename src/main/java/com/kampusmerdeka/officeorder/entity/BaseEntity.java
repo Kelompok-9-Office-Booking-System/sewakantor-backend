@@ -6,13 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.Instant;
 
 @Getter
 @Setter
@@ -29,11 +26,20 @@ public abstract class BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
-    private Instant createdAt;
+    @Column(name = "created_at", updatable = false, columnDefinition = "BIGINT default (extract(epoch from now()) * 1000)", nullable = false)
+    private Long createdAt;
 
-    @UpdateTimestamp
-    @Column(name = "updated_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
-    private Instant updatedAt;
+    @Column(name = "updated_at", columnDefinition = "BIGINT default (extract(epoch from now()) * 1000)", nullable = false)
+    private Long updatedAt;
+
+    @PrePersist
+    void onCreate() {
+        createdAt = System.currentTimeMillis();
+        updatedAt = createdAt;
+    }
+
+    @PreUpdate
+    void onUpdate() {
+        updatedAt = System.currentTimeMillis();
+    }
 }
