@@ -1,6 +1,6 @@
 package com.kampusmerdeka.officeorder.config;
 
-import com.kampusmerdeka.officeorder.entity.Message;
+import com.kampusmerdeka.officeorder.dto.repsonse.MessageResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import reactor.core.publisher.Flux;
@@ -11,12 +11,12 @@ import reactor.util.concurrent.Queues;
 public class SubscriptionConfig {
 
   @Bean
-  public Sinks.Many<Message> messageSinks() {
+  public Sinks.Many<MessageResponse> messageSinks() {
     return Sinks.many().multicast().onBackpressureBuffer(Queues.SMALL_BUFFER_SIZE, false);
   }
 
   @Bean
-  public Flux<Message> messageFlux(Sinks.Many<Message> messageSinks) {
+  public Flux<MessageResponse> messageFlux(Sinks.Many<MessageResponse> messageSinks) {
     return messageSinks.asFlux();
   }
 

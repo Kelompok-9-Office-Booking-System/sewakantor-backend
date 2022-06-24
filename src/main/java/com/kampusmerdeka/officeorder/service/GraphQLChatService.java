@@ -2,17 +2,14 @@ package com.kampusmerdeka.officeorder.service;
 
 import com.kampusmerdeka.officeorder.dto.repsonse.ConversationResponse;
 import com.kampusmerdeka.officeorder.dto.repsonse.MessageResponse;
+import com.kampusmerdeka.officeorder.dto.request.AdminMessageRequest;
 import com.kampusmerdeka.officeorder.dto.request.CustomerMessageRequest;
-import com.kampusmerdeka.officeorder.entity.Conversation;
-import com.kampusmerdeka.officeorder.entity.Message;
-import com.kampusmerdeka.officeorder.entity.UserCustomer;
+import com.kampusmerdeka.officeorder.entity.*;
 import com.kampusmerdeka.officeorder.repository.ConversationRepository;
 import com.kampusmerdeka.officeorder.repository.MessageRepository;
 import com.kampusmerdeka.officeorder.util.FileDownloadUtil;
 import com.kampusmerdeka.officeorder.util.Helpers;
-import com.kampusmerdeka.officeorder.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ChatService {
+public class GraphQLChatService {
     @Autowired
     private AuthService authService;
     @Autowired
@@ -29,13 +26,13 @@ public class ChatService {
     @Autowired
     private ConversationRepository conversationRepository;
 
-    public ResponseEntity<Object> getCount() {
+    public Integer getCount() {
         UserCustomer me = authService.me();
 
-        return ResponseUtil.ok("count message", ((Collection) messageRepository.findByConversationIdAndIsReadFalse(me.getId())).size());
+        return ((Collection) messageRepository.findByConversationIdAndIsReadFalse(me.getId())).size();
     }
 
-    public ResponseEntity<Object> getConversations() {
+    public List<ConversationResponse> getConversations() {
         List<ConversationResponse> result = new ArrayList<>();
         conversationRepository.getConversations().forEach(conversationResponse -> {
             if (conversationResponse.getSenderAvatar() != null)
@@ -46,10 +43,10 @@ public class ChatService {
             result.add(conversationResponse);
         });
 
-        return ResponseUtil.ok("list conversation", result);
+        return result;
     }
 
-    public ResponseEntity<Object> getMessages() {
+    public List<MessageResponse> getMessages() {
         UserCustomer me = authService.me();
 
         Iterable<Message> messageIterable = messageRepository.findByConversationId(me.getId());
@@ -57,10 +54,10 @@ public class ChatService {
         List<MessageResponse> result = new ArrayList<>();
         messageIterable.forEach(message -> result.add(getResponse(message)));
 
-        return ResponseUtil.ok("list message", result);
+        return result;
     }
 
-    public ResponseEntity<Object> sendMessage(CustomerMessageRequest request) {
+    public MessageResponse sendMessage(CustomerMessageRequest request) {
         UserCustomer me = authService.me();
 
         Optional<Conversation> conversationOptional = conversationRepository.findById(me.getId());
@@ -80,17 +77,37 @@ public class ChatService {
                 .isRead(false)
                 .build();
 
-        messageRepository.save(message);
+        message = messageRepository.saveAndFlush(message);
 
-        return ResponseUtil.ok("message sent successfully");
+        return getResponse(message);
+    }
+
+    public MessageResponse sendMessage(AdminMessageRequest request) {
+        UserAdmin me = authService.me();
+
+        System.out.println(request.getText());
+        System.out.println(request.getConversationId());
+        Optional<Conversation> conversationOptional = conversationRepository.findById(request.getConversationId());
+        Conversation conversation = conversationOptional.get();
+
+        Message message = Message.builder()
+                .conversation(conversation)
+                .text(request.getText())
+                .sender(me)
+                .isRead(false)
+                .build();
+
+        message = messageRepository.saveAndFlush(message);
+
+        return getResponse(message);
     }
 
     private MessageResponse getResponse(Message message) {
-        UserCustomer me = authService.me();
+        User me = authService.me();
 
         return MessageResponse.builder()
                 .id(message.getId())
-                .me(message.getConversation().getCustomer().equals(me))
+                .me(message.getSender().equals(me))
                 .text(message.getText())
                 .isRead(message.getIsRead())
                 .unixTime(message.getCreatedAt())

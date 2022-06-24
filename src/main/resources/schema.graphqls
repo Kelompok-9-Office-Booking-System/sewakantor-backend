@@ -1,8 +1,0 @@
-type Message {
-    id: ID
-    message: String
-}
-
-type Subscription {
-    customerChats: [Message]!
-}

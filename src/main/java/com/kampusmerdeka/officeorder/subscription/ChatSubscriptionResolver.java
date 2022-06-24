@@ -1,6 +1,8 @@
 package com.kampusmerdeka.officeorder.subscription;
 
+import com.kampusmerdeka.officeorder.dto.repsonse.MessageResponse;
 import com.kampusmerdeka.officeorder.entity.Message;
+import com.kampusmerdeka.officeorder.entity.UserCustomer;
 import com.kampusmerdeka.officeorder.service.AuthService;
 import graphql.kickstart.tools.GraphQLSubscriptionResolver;
 import org.reactivestreams.Publisher;
@@ -15,10 +17,12 @@ public class ChatSubscriptionResolver implements GraphQLSubscriptionResolver {
     private AuthService authService;
 
     @Autowired
-    private Flux<Message> messageEvents;
+    private Flux<MessageResponse> messageEvents;
 
     @PreAuthorize("isAuthenticated()")
-    public Publisher<Message> customerChats() {
-        return messageEvents.filter(message -> message.getConversation().getCustomer().equals(authService.me()));
+    public Publisher<MessageResponse> customerChats() {
+        UserCustomer me = authService.me();
+        System.out.println("this is me " + me.getEmail());
+        return messageEvents;
     }
 }

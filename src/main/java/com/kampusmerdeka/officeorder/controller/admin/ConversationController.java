@@ -1,6 +1,6 @@
 package com.kampusmerdeka.officeorder.controller.admin;
 
-import com.kampusmerdeka.officeorder.dto.request.MessageRequest;
+import com.kampusmerdeka.officeorder.dto.request.CustomerMessageRequest;
 import com.kampusmerdeka.officeorder.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ public class ConversationController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> sendMessage(@Valid @RequestBody MessageRequest request) {
+    public ResponseEntity<Object> sendMessage(@Valid @RequestBody CustomerMessageRequest request) {
         return chatService.sendMessage(request);
     }
 }
