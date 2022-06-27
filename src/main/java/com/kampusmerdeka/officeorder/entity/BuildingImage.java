@@ -17,7 +17,7 @@ import javax.persistence.*;
 @Table(name = "building_images")
 public class BuildingImage extends BaseEntity{
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "image_name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "path")

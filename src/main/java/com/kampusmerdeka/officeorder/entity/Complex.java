@@ -17,7 +17,7 @@ import javax.persistence.*;
 @Table(name = "complexes")
 public class Complex extends BaseEntity {
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "complex_name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "description", columnDefinition = "TEXT")

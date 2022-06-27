@@ -17,7 +17,7 @@ import javax.persistence.*;
 @Table(name = "facilities")
 public class Facility extends BaseEntity{
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "facility_name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "icon")

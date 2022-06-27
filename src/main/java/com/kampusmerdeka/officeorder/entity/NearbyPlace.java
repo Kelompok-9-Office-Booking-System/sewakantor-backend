@@ -17,7 +17,7 @@ import javax.persistence.*;
 @Table(name = "nearby_places")
 public class NearbyPlace extends BaseEntity{
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "nearby_place_name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "distance")

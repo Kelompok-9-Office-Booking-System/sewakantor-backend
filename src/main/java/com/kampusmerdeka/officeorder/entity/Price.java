@@ -26,6 +26,7 @@ public class Price extends BaseEntity {
     }
 
     @Enumerated
+    @Column(name = "price_type")
     private Type type;
 
     @Column(name = "price")

@@ -24,7 +24,7 @@ public class Unit extends BaseEntity{
         VIRTUAL_ROOM
     }
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "unit_name", nullable = false)
     private String name;
 
     @Column(name = "description", columnDefinition = "TEXT")
@@ -33,16 +33,17 @@ public class Unit extends BaseEntity{
     @Column(name = "capacity")
     private Integer capacity;
 
-    @Column(name = "length", precision = 1)
+    @Column(name = "unit_length", precision = 1)
     private Double length;
 
-    @Column(name = "width", precision = 1)
+    @Column(name = "unit_width", precision = 1)
     private Double width;
 
-    @Column(name = "height", precision = 1)
+    @Column(name = "unit_height", precision = 1)
     private Double height;
 
     @Enumerated
+    @Column(name = "unit_type")
     private Type type;
 
     @ManyToOne

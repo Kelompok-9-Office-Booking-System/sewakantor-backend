@@ -28,7 +28,7 @@ public class Review extends BaseEntity{
     @Column(name = "star")
     private Integer star;
 
-    @Column(name = "comment")
+    @Column(name = "comment_review")
     private String comment;
 }
 
