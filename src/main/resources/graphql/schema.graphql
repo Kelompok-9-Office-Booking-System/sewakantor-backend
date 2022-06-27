@@ -23,9 +23,9 @@ type Subscription {
 }
 
 type Query {
-    allConversations: [Conversation]
-    conversationById(conversationId: ID!): [Message]
-    customerConversation: [Message]
+    getAllConversations: [Conversation]
+    getConversationById(conversationId: ID!): [Message]
+    getCustomerConversation: [Message]
 }
 
 type Mutation {

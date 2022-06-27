@@ -33,8 +33,24 @@ public class GraphQLChatService {
     }
 
     public List<ConversationResponse> getConversations() {
+        User me = authService.me();
         List<ConversationResponse> result = new ArrayList<>();
-        conversationRepository.getConversations().forEach(conversationResponse -> {
+        conversationRepository.getConversations(me).forEach(conversationResponse -> {
+            if (conversationResponse.getSenderAvatar() != null)
+                conversationResponse.setSenderAvatar(
+                        Helpers.resourceToBase64(FileDownloadUtil.getFileAsResource(conversationResponse.getSenderAvatar()))
+                );
+
+            result.add(conversationResponse);
+        });
+
+        return result;
+    }
+
+    public List<ConversationResponse> getCustomerConversation() {
+        User me = authService.me();
+        List<ConversationResponse> result = new ArrayList<>();
+        conversationRepository.getConversations(me).forEach(conversationResponse -> {
             if (conversationResponse.getSenderAvatar() != null)
                 conversationResponse.setSenderAvatar(
                         Helpers.resourceToBase64(FileDownloadUtil.getFileAsResource(conversationResponse.getSenderAvatar()))

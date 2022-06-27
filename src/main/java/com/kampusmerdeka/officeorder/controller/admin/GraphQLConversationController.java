@@ -56,8 +56,13 @@ public class GraphQLConversationController {
         messagePublisher.connect();
     }
 
-    @SchemaMapping(typeName = "Query", field = "conversations")
-    public List<ConversationResponse> getAllEmployees() {
+    @SchemaMapping(typeName = "Query", field = "getAllConversations")
+    public List<ConversationResponse> getAllConversations() {
+        return chatService.getConversations();
+    }
+
+    @SchemaMapping(typeName = "Query", field = "getCustomerConversation")
+    public List<ConversationResponse> getCustomerConversation() {
         return chatService.getConversations();
     }
 

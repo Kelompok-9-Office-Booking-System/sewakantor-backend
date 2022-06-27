@@ -5,6 +5,7 @@ import com.kampusmerdeka.officeorder.dto.repsonse.MessageResponse;
 import com.kampusmerdeka.officeorder.dto.request.CustomerMessageRequest;
 import com.kampusmerdeka.officeorder.entity.Conversation;
 import com.kampusmerdeka.officeorder.entity.Message;
+import com.kampusmerdeka.officeorder.entity.User;
 import com.kampusmerdeka.officeorder.entity.UserCustomer;
 import com.kampusmerdeka.officeorder.repository.ConversationRepository;
 import com.kampusmerdeka.officeorder.repository.MessageRepository;
@@ -36,8 +37,9 @@ public class ChatService {
     }
 
     public ResponseEntity<Object> getConversations() {
+        User me = authService.me();
         List<ConversationResponse> result = new ArrayList<>();
-        conversationRepository.getConversations().forEach(conversationResponse -> {
+        conversationRepository.getConversations(me).forEach(conversationResponse -> {
             if (conversationResponse.getSenderAvatar() != null)
                 conversationResponse.setSenderAvatar(
                         Helpers.resourceToBase64(FileDownloadUtil.getFileAsResource(conversationResponse.getSenderAvatar()))

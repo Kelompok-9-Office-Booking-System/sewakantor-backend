@@ -1,20 +1,20 @@
-INSERT INTO users (password, role, user_type) VALUES ('$2a$12$T8Kw20YmyCMYicuVsLsTpeyiIqJk/m3McXk64KizlRZ//GXDaRwf.', 0, 'ADMIN');
-INSERT INTO users (password, role, user_type) VALUES ('$2a$12$T8Kw20YmyCMYicuVsLsTpeyiIqJk/m3McXk64KizlRZ//GXDaRwf.', 1, 'ADMIN');
-INSERT INTO users (password, role, user_type) VALUES ('$2a$12$T8Kw20YmyCMYicuVsLsTpeyiIqJk/m3McXk64KizlRZ//GXDaRwf.', 2, 'ADMIN');
-INSERT INTO users (password, role, user_type) VALUES ('$2a$12$T8Kw20YmyCMYicuVsLsTpeyiIqJk/m3McXk64KizlRZ//GXDaRwf.', 3, 'CUSTOMER');
-INSERT INTO users (password, role, user_type) VALUES ('$2a$12$T8Kw20YmyCMYicuVsLsTpeyiIqJk/m3McXk64KizlRZ//GXDaRwf.', 3, 'CUSTOMER');
-INSERT INTO users (password, role, user_type) VALUES ('$2a$12$T8Kw20YmyCMYicuVsLsTpeyiIqJk/m3McXk64KizlRZ//GXDaRwf.', 3, 'CUSTOMER');
-INSERT INTO users (password, role, user_type) VALUES ('$2a$12$T8Kw20YmyCMYicuVsLsTpeyiIqJk/m3McXk64KizlRZ//GXDaRwf.', 3, 'CUSTOMER');
-INSERT INTO users (password, role, user_type) VALUES ('$2a$12$T8Kw20YmyCMYicuVsLsTpeyiIqJk/m3McXk64KizlRZ//GXDaRwf.', 3, 'CUSTOMER');
+INSERT INTO users (password, role, user_type, first_name, last_name) VALUES ('$2a$12$T8Kw20YmyCMYicuVsLsTpeyiIqJk/m3McXk64KizlRZ//GXDaRwf.', 0, 'ADMIN', 'Super Admin','');
+INSERT INTO users (password, role, user_type, first_name, last_name) VALUES ('$2a$12$T8Kw20YmyCMYicuVsLsTpeyiIqJk/m3McXk64KizlRZ//GXDaRwf.', 1, 'ADMIN', 'Supervisor','');
+INSERT INTO users (password, role, user_type, first_name, last_name) VALUES ('$2a$12$T8Kw20YmyCMYicuVsLsTpeyiIqJk/m3McXk64KizlRZ//GXDaRwf.', 2, 'ADMIN', 'Consultant','');
+INSERT INTO users (password, role, user_type, first_name, last_name) VALUES ('$2a$12$T8Kw20YmyCMYicuVsLsTpeyiIqJk/m3McXk64KizlRZ//GXDaRwf.', 3, 'CUSTOMER', 'Jhon', 'Doe');
+INSERT INTO users (password, role, user_type, first_name, last_name) VALUES ('$2a$12$T8Kw20YmyCMYicuVsLsTpeyiIqJk/m3McXk64KizlRZ//GXDaRwf.', 3, 'CUSTOMER', 'Customer', '1');
+INSERT INTO users (password, role, user_type, first_name, last_name) VALUES ('$2a$12$T8Kw20YmyCMYicuVsLsTpeyiIqJk/m3McXk64KizlRZ//GXDaRwf.', 3, 'CUSTOMER', 'Customer', '2');
+INSERT INTO users (password, role, user_type, first_name, last_name) VALUES ('$2a$12$T8Kw20YmyCMYicuVsLsTpeyiIqJk/m3McXk64KizlRZ//GXDaRwf.', 3, 'CUSTOMER', 'Customer', '3');
+INSERT INTO users (password, role, user_type, first_name, last_name) VALUES ('$2a$12$T8Kw20YmyCMYicuVsLsTpeyiIqJk/m3McXk64KizlRZ//GXDaRwf.', 3, 'CUSTOMER', 'Customer', '4');
 
-INSERT INTO admin (user_id, username, name) VALUES (1, 'superadmin', 'Super Admin');
-INSERT INTO admin (user_id, username, name) VALUES (2, 'supervisor', 'Supervisor');
-INSERT INTO admin (user_id, username, name) VALUES (3, 'consultant', 'Consultant');
-INSERT INTO customers (user_id, first_name, last_name, email) VALUES (4, 'Jhon', 'Doe', 'jhondoe@mail.com');
-INSERT INTO customers (user_id, first_name, last_name, email) VALUES (5, 'Customer', '1', 'customer1@mail.com');
-INSERT INTO customers (user_id, first_name, last_name, email) VALUES (6, 'Customer', '2', 'customer2@mail.com');
-INSERT INTO customers (user_id, first_name, last_name, email) VALUES (7, 'Customer', '3', 'customer3@mail.com');
-INSERT INTO customers (user_id, first_name, last_name, email) VALUES (8, 'Customer', '4', 'customer4@mail.com');
+INSERT INTO admin (user_id, username) VALUES (1, 'superadmin');
+INSERT INTO admin (user_id, username) VALUES (2, 'supervisor');
+INSERT INTO admin (user_id, username) VALUES (3, 'consultant');
+INSERT INTO customers (user_id, email) VALUES (4, 'jhondoe@mail.com');
+INSERT INTO customers (user_id, email) VALUES (5, 'customer1@mail.com');
+INSERT INTO customers (user_id, email) VALUES (6, 'customer2@mail.com');
+INSERT INTO customers (user_id, email) VALUES (7, 'customer3@mail.com');
+INSERT INTO customers (user_id, email) VALUES (8, 'customer4@mail.com');
 
 INSERT INTO cities (name) VALUES ('Jakarta');
 
