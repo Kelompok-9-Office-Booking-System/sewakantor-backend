@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Table(name = "admin")
 public class UserAdmin extends User {
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String name;
 
     @Column(name = "username", unique = true, nullable = false)
