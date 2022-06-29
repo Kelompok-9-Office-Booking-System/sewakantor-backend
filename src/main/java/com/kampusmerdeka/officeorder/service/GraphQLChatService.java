@@ -9,6 +9,7 @@ import com.kampusmerdeka.officeorder.repository.ConversationRepository;
 import com.kampusmerdeka.officeorder.repository.MessageRepository;
 import com.kampusmerdeka.officeorder.util.FileDownloadUtil;
 import com.kampusmerdeka.officeorder.util.Helpers;
+import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,7 +63,7 @@ public class GraphQLChatService {
         return result;
     }
 
-    public List<MessageResponse> getMessages() {
+    public List<MessageResponse> getMessagesForCustomer() {
         UserCustomer me = authService.me();
 
         Iterable<Message> messageIterable = messageRepository.findByConversationId(me.getId());
@@ -73,6 +74,22 @@ public class GraphQLChatService {
         return result;
     }
 
+    public List<MessageResponse> getMessagesByConversationId(Long conversationId) {
+        Iterable<Message> messageIterable = messageRepository.findByConversationId(conversationId);
+
+        List<MessageResponse> result = new ArrayList<>();
+        messageIterable.forEach(message -> result.add(getResponse(message)));
+
+        return result;
+    }
+    public Publisher<MessageResponse> getMessagesStreamByConversationId(Long conversationId) {
+        Iterable<Message> messageIterable = messageRepository.findByConversationId(conversationId);
+
+        List<MessageResponse> result = new ArrayList<>();
+        messageIterable.forEach(message -> result.add(getResponse(message)));
+
+        return (Publisher<MessageResponse>) result;
+    }
     public MessageResponse sendMessage(CustomerMessageRequest request) {
         UserCustomer me = authService.me();
 
