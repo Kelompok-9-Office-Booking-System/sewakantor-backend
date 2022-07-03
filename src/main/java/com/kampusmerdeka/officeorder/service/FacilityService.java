@@ -95,9 +95,7 @@ public class FacilityService {
         return FacilityResponse.builder()
                 .id(facility.getId())
                 .name(facility.getName())
-                .icon(facility.getIcon() != null
-                        ? Helpers.resourceToBase64(FileDownloadUtil.getFileAsResource(facility.getIcon()))
-                        : null)
+                .icon(Helpers.setFileUrl(facility.getIcon()))
                 .build();
     }
 

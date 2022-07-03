@@ -164,7 +164,7 @@ public class BuildingService {
         buildingImageRepository.findByBuilding(building).forEach(buildingImage -> {
             images.add(BuildingImageResponse.builder()
                     .id(buildingImage.getId())
-                    .image(Helpers.resourceToBase64(FileDownloadUtil.getFileAsResource(buildingImage.getPath())))
+                    .image(Helpers.setFileUrl(buildingImage.getPath()))
                     .build());
         });
 
