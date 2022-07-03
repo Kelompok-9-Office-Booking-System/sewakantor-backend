@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -15,13 +16,19 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "units")
-public class Unit extends BaseEntity{
+public class Unit extends BaseEntity {
 
-    enum Type {
-        OFFICE_ROOM,
-        COWORKING,
-        MEETING_ROOM,
-        VIRTUAL_ROOM
+    public enum Type {
+        OFFICE_ROOM("Office Room"),
+        COWORKING("Coworking"),
+        MEETING_ROOM("Meeting Room"),
+        VIRTUAL_ROOM("Virtual Room");
+
+        public String label;
+
+        Type(String label) {
+            this.label = label;
+        }
     }
 
     @Column(name = "name", nullable = false)
@@ -48,4 +55,11 @@ public class Unit extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "building_id")
     private Building building;
+
+    @OneToMany(mappedBy = "unit", targetEntity = Review.class, fetch = FetchType.LAZY)
+    private Set<Review> reviews;
+
+    @OneToMany(mappedBy = "unit", targetEntity = Price.class, fetch = FetchType.LAZY)
+    private Set<Price> prices;
+
 }

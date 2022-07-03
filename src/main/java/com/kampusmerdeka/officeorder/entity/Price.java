@@ -17,12 +17,18 @@ import javax.persistence.*;
 @Table(name = "prices")
 public class Price extends BaseEntity {
 
-    enum Type {
-        HOURLY,
-        DAILY,
-        WEEKLY,
-        MONTHLY,
-        YEARLY
+    public enum Type {
+        HOURLY("Hour"),
+        DAILY("Day"),
+        WEEKLY("Week"),
+        MONTHLY("Month"),
+        YEARLY("Year");
+
+        public String label;
+
+        Type(String label) {
+            this.label = label;
+        }
     }
 
     @Enumerated
