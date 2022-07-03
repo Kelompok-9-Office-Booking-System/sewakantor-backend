@@ -27,9 +27,7 @@ public class SpaceService {
         List<SpaceResponse> result = new ArrayList<>();
         Iterable<Building> buildingIterable = buildingRepository.findAll();
 
-        buildingIterable.forEach(building -> {
-            result.add(getResponse(building));
-        });
+        buildingIterable.forEach(building -> result.add(getResponse(building)));
 
         return ResponseUtil.ok("all space", result);
     }
@@ -54,7 +52,11 @@ public class SpaceService {
         List<FacilityResponse> facilityResponses = new ArrayList<>();
         building.getBuildingFacilities().forEach(buildingFacility -> {
             Facility facility = buildingFacility.getFacility();
-            facilityResponses.add(FacilityResponse.builder().id(facility.getId()).name(facility.getName()).build());
+            facilityResponses.add(FacilityResponse.builder()
+                    .id(facility.getId())
+                    .name(facility.getName())
+                    .icon(Helpers.setFileUrl(facility.getIcon()))
+                    .build());
         });
 
         Set<Unit> buildingUnits = building.getUnits();
