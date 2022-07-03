@@ -34,6 +34,7 @@ public class Helpers {
 
     @SneakyThrows
     public static String setFileUrl(String path) {
+        if (path == null) return null;
         String resourcePath = String.format("%s/v1/resources%s",
                 contextPath,
                 path.startsWith("/") ? path : '/' + path);
