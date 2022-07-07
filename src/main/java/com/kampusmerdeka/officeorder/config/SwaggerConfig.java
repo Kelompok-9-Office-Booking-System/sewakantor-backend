@@ -16,7 +16,6 @@ import java.util.Collections;
 import java.util.List;
 
 @Configuration
-@EnableWebMvc
 @EnableSwagger2
 public class SwaggerConfig {
     public static final String AUTHORIZATION_HEADER = "Authorization";

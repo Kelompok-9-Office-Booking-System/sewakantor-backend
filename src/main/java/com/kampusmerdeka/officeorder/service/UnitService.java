@@ -11,7 +11,10 @@ import com.kampusmerdeka.officeorder.exception.DataNotFoundException;
 import com.kampusmerdeka.officeorder.repository.BuildingRepository;
 import com.kampusmerdeka.officeorder.repository.UnitImageRepository;
 import com.kampusmerdeka.officeorder.repository.UnitRepository;
-import com.kampusmerdeka.officeorder.util.*;
+import com.kampusmerdeka.officeorder.util.FileDeleteUtil;
+import com.kampusmerdeka.officeorder.util.FileUploadUtil;
+import com.kampusmerdeka.officeorder.util.Helpers;
+import com.kampusmerdeka.officeorder.util.ResponseUtil;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -147,7 +150,7 @@ public class UnitService {
         List<UnitImageResponse> images = new ArrayList<>();
         unitImageRepository.findByUnit(unit).forEach(buildingImage -> images.add(UnitImageResponse.builder()
                 .id(buildingImage.getId())
-                .image(Helpers.resourceToBase64(FileDownloadUtil.getFileAsResource(buildingImage.getPath())))
+                .image(Helpers.setFileUrl(buildingImage.getPath()))
                 .build()));
 
         return UnitResponse.builder()
