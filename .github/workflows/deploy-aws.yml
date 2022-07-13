@@ -65,14 +65,14 @@ jobs:
       - name: Deploy using ssh
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_HOST }}
+          host: ${{ secrets.EC2_SSH_HOST }}
           port: 22
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
+          username: ${{ secrets.EC2_SSH_USERNAME }}
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           script: |
             docker stop office-order office-order-coverage
             docker rmi rofiksupriant/office-order:latest rofiksupriant/office-order-coverage:latest
             docker pull rofiksupriant/office-order:latest
             docker pull rofiksupriant/office-order-coverage:latest
             docker run -d --rm --name office-order-coverage -p 8000:80 rofiksupriant/office-order-coverage:latest
-            docker run -d --rm --name office-order -p 80:8080 --env-file=dev.env --network kampus_merdeka -v /office-order/files:/office-order/files rofiksupriant/office-order:latest
+            docker run -d --rm --name office-order -p 8080:8080 --env-file=dev.env --network kampus_merdeka -v /office-order/files:/office-order/files rofiksupriant/office-order:latest
