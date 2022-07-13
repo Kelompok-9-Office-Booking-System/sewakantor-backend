@@ -139,7 +139,7 @@
 					<excludes>
 						<exclude>**/Application.class</exclude>
 						<exclude>**/config/*.class</exclude>
-						<exclude>**/constan/*.class</exclude>
+						<exclude>**/constant/*.class</exclude>
 						<exclude>**/repository/*.class</exclude>
 						<exclude>**/entity/**/*.class</exclude>
 						<exclude>**/controller/*.class</exclude>
@@ -147,6 +147,7 @@
 						<exclude>**/exception/*.class</exclude>
 						<exclude>**/security/**Config.class</exclude>
 						<exclude>**/util/File**.class</exclude>
+						<exclude>**/dto/**/**.class</exclude>
 					</excludes>
 				</configuration>
 				<executions>

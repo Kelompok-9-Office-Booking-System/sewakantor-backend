@@ -6,10 +6,12 @@ import com.kampusmerdeka.officeorder.dto.repsonse.BuildingResponse;
 import com.kampusmerdeka.officeorder.dto.repsonse.FacilityResponse;
 import com.kampusmerdeka.officeorder.dto.request.BuildingRequest;
 import com.kampusmerdeka.officeorder.entity.*;
-import com.kampusmerdeka.officeorder.exception.DataNotFoundException;
 import com.kampusmerdeka.officeorder.repository.*;
-import com.kampusmerdeka.officeorder.util.*;
-import lombok.SneakyThrows;
+import com.kampusmerdeka.officeorder.util.FileDeleteUtil;
+import com.kampusmerdeka.officeorder.util.FileUploadUtil;
+import com.kampusmerdeka.officeorder.util.Helpers;
+import com.kampusmerdeka.officeorder.util.ResponseUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class BuildingService {
     @Autowired
     private BuildingRepository buildingRepository;
@@ -54,78 +57,68 @@ public class BuildingService {
 
     @Transactional
     public ResponseEntity<Object> createOne(BuildingRequest request) {
-        try {
-            Optional<Complex> complexOptional = complexRepository.findById(request.getComplexId());
-            if (complexOptional.isEmpty()) return ResponseUtil.notFound("complex not found");
+        Optional<Complex> complexOptional = complexRepository.findById(request.getComplexId());
+        if (complexOptional.isEmpty()) return ResponseUtil.notFound("complex not found");
 
-            Complex complex = complexOptional.get();
-            Building building = Building.builder()
-                    .name(request.getName())
-                    .description(request.getDescription())
-                    .address(request.getAddress())
-                    .complex(complex)
-                    .build();
+        Complex complex = complexOptional.get();
+        Building building = Building.builder()
+                .name(request.getName())
+                .description(request.getDescription())
+                .address(request.getAddress())
+                .complex(complex)
+                .build();
 
-            building = buildingRepository.saveAndFlush(building);
+        building = buildingRepository.saveAndFlush(building);
 
-            List<BuildingImage> buildingImages = new ArrayList<>();
-            if (request.getImages() != null && request.getImages().size() > 0) {
-                Building savedBuilding = building;
-                request.getImages().forEach(file -> {
-                    if (file != null && !file.isEmpty()) {
-                        try {
-                            buildingImages.add(BuildingImage.builder()
-                                    .name(file.getOriginalFilename().replaceAll(" ", "-"))
-                                    .building(savedBuilding)
-                                    .path(FileUploadUtil.saveFile(
-                                            FileDirectoryConstant.IMAGE_BUILDING_DIR,
-                                            file.getOriginalFilename().replaceAll(" ", "-"),
-                                            file)
-                                    )
-                                    .build()
-                            );
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
+        List<BuildingImage> buildingImages = new ArrayList<>();
+        if (request.getImages() != null && request.getImages().size() > 0) {
+            Building savedBuilding = building;
+            request.getImages().forEach(file -> {
+                if (file != null && !file.isEmpty()) {
+                    try {
+                        buildingImages.add(BuildingImage.builder()
+                                .name(file.getOriginalFilename().replaceAll(" ", "-"))
+                                .building(savedBuilding)
+                                .path(FileUploadUtil.saveFile(
+                                        FileDirectoryConstant.IMAGE_BUILDING_DIR,
+                                        file.getOriginalFilename().replaceAll(" ", "-"),
+                                        file)
+                                )
+                                .build()
+                        );
+                    } catch (IOException e) {
+                        log.info("error save file {}", e.getLocalizedMessage());
                     }
-                });
-            }
-
-            List<BuildingFacility> buildingFacilities = new ArrayList<>();
-            if (request.getFacilities() != null && request.getFacilities().size() > 0) {
-                Building savedBuilding = building;
-                request.getFacilities().forEach(facilityId -> {
-                    Optional<Facility> facilityOptional = facilityRepository.findById(facilityId);
-                    if (facilityOptional.isEmpty())
-                        throw new DataNotFoundException("facility " + facilityId + " not found");
-
-                    Facility facility = facilityOptional.get();
-
-                    buildingFacilities.add(BuildingFacility.builder().building(savedBuilding).facility(facility).build());
-
-                });
-            }
-
-            buildingImageRepository.saveAll(buildingImages);
-            buildingFacilityRepository.saveAll(buildingFacilities);
-
-            BuildingResponse response = getResponse(buildingRepository.saveAndFlush(building));
-
-            return ResponseUtil.ok("building saved successfully", response);
-
-        } catch (DataNotFoundException e) {
-            return ResponseUtil.notFound(e.getLocalizedMessage());
+                }
+            });
         }
+
+        List<BuildingFacility> buildingFacilities = new ArrayList<>();
+        if (request.getFacilities() != null && request.getFacilities().size() > 0) {
+            Building savedBuilding = building;
+            request.getFacilities().forEach(facilityId -> {
+                Optional<Facility> facilityOptional = facilityRepository.findById(facilityId);
+                if (facilityOptional.isPresent()) {
+                    Facility facility = facilityOptional.get();
+                    buildingFacilities.add(BuildingFacility.builder().building(savedBuilding).facility(facility).build());
+                }
+            });
+        }
+
+        buildingImageRepository.saveAll(buildingImages);
+        buildingFacilityRepository.saveAll(buildingFacilities);
+
+        BuildingResponse response = getResponse(buildingRepository.saveAndFlush(building));
+
+        return ResponseUtil.ok("building saved successfully", response);
     }
 
-    @SneakyThrows
     public ResponseEntity<Object> updateOne(Long id, BuildingRequest request) {
         Optional<Building> buildingOptional = buildingRepository.findById(id);
         if (buildingOptional.isEmpty()) return ResponseUtil.notFound("building not found");
 
         Optional<Complex> complexOptional = complexRepository.findById(request.getComplexId());
         if (complexOptional.isEmpty()) return ResponseUtil.notFound("complex not found");
-
 
         Complex complex = complexOptional.get();
         Building building = buildingOptional.get();
