@@ -50,11 +50,21 @@ public class AuthService {
             var username = "";
             var password = request.getPassword();
 
+            User user;
             if (request instanceof CustomerLoginRequest) {
                 username = ((CustomerLoginRequest) request).getEmail();
+                Optional<UserCustomer> userCustomerOptional = customerRepository.findByEmail(username);
+                if (userCustomerOptional.isEmpty()) return ResponseUtil.notFound("user not found");
+
+                user = userCustomerOptional.get();
             } else {
                 username = ((AdminLoginRequest) request).getUsername();
+                Optional<UserAdmin> userAdminOptional = userRepository.findByUsername(username);
+                if (userAdminOptional.isEmpty()) return ResponseUtil.notFound("user not found");
+
+                user = userAdminOptional.get();
             }
+
 
             UserDetails userDetails = userDetailService.loadUserByUsername(username);
 
@@ -63,10 +73,30 @@ public class AuthService {
             String token = tokenProvider.generateToken(userDetails);
 
             User.Role role = User.Role.valueOf(userDetails.getAuthorities().stream().findFirst().get().toString());
+
+            String name = null;
+            String firstName = null;
+            String lastName = null;
+            String email = null;
+            username = null;
+            if (user instanceof UserAdmin) {
+                UserAdmin userAdmin = (UserAdmin) user;
+                username = userAdmin.getUsername();
+                name = userAdmin.getName();
+            } else {
+                UserCustomer userCustomer = (UserCustomer) user;
+                firstName = userCustomer.getFirstName();
+                lastName = userCustomer.getLastName();
+                email = userCustomer.getEmail();
+            }
             LoginResponse response = LoginResponse.builder()
                     .tokenType("Bearer")
                     .token(token)
-                    .username(userDetails.getUsername())
+                    .email(email)
+                    .username(username)
+                    .name(name)
+                    .firstName(firstName)
+                    .lastName(lastName)
                     .roleId(role.ordinal())
                     .role(role.name())
                     .build();
@@ -125,11 +155,14 @@ public class AuthService {
         UserDetails userDetails = userDetailService.loadUserByUsername(userCustomer.getEmail());
         String token = tokenProvider.generateToken(userDetails);
 
+
         User.Role role = User.Role.valueOf(userDetails.getAuthorities().stream().findFirst().get().toString());
         LoginResponse response = LoginResponse.builder()
                 .tokenType("Bearer")
                 .token(token)
-                .username(userDetails.getUsername())
+                .email(userDetails.getUsername())
+                .firstName(userCustomer.getFirstName())
+                .lastName(userCustomer.getLastName())
                 .roleId(role.ordinal())
                 .role(role.name())
                 .build();

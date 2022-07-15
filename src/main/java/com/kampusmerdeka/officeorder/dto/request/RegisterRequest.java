@@ -30,6 +30,6 @@ public class RegisterRequest {
 
     @NotNull(message = "password must not be null")
     @NotBlank(message = "password must not be blank")
-    @Size(min = 5, message = "minimum character of password is 5")
+    @Size(min = 8, message = "password must contains at least 8 character")
     private String password;
 }
