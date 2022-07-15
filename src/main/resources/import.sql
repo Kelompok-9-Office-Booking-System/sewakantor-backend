@@ -58,6 +58,9 @@ INSERT INTO prices(price, type, unit_id) VALUES (30000000, 4, 2);
 INSERT INTO prices(price, type, unit_id) VALUES (4000000, 3, 3);
 INSERT INTO prices(price, type, unit_id) VALUES (40000000, 4, 3);
 
+INSERT INTO prices(price, type, unit_id) VALUES (4000000, 3, 5);
+INSERT INTO prices(price, type, unit_id) VALUES (40000000, 4, 5);
+
 INSERT INTO prices(price, type, unit_id) VALUES (50000, 0, 4);
 INSERT INTO prices(price, type, unit_id) VALUES (250000, 1, 4);
 INSERT INTO prices(price, type, unit_id) VALUES (1500000, 3, 4);

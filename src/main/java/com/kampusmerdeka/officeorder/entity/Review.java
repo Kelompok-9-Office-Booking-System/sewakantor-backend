@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -17,8 +19,9 @@ import javax.persistence.*;
 @Table(name = "reviews")
 public class Review extends BaseEntity{
 
-    @ManyToOne
     @JoinColumn(name = "unit_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Unit unit;
 
     @ManyToOne
