@@ -40,7 +40,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                     .build());
         }
 
-        return ResponseUtil.error("Malformed request", status, errors);
+        return ResponseUtil.error(errors.get(0).getError(), status, errors);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                     .build());
         }
 
-        return ResponseUtil.error("Malformed request", status, errors);
+        return ResponseUtil.error(errors.get(0).getError(), status, errors);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 .error(ex.getLocalizedMessage())
                 .build());
 
-        return ResponseUtil.error("Malformed request", HttpStatus.BAD_REQUEST, errors);
+        return ResponseUtil.error(errors.get(0).getError(), HttpStatus.BAD_REQUEST, errors);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
@@ -88,6 +88,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             }
         }
 
-        return ResponseUtil.error("Malformed request", HttpStatus.BAD_REQUEST, errors);
+        return ResponseUtil.error(errors.get(0).getError(), HttpStatus.BAD_REQUEST, errors);
     }
 }
