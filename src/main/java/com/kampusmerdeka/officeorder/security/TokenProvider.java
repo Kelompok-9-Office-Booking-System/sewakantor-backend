@@ -19,7 +19,8 @@ public class TokenProvider implements Serializable {
     @Serial
     private static final long serialVersionUID = 3541639083318285352L;
 
-    public static final long JWT_TOKEN_VALIDITY = 5L * 60L * 60L;
+    @Value("${officeorder.TOKEN_EXPIRATION_MS}")
+    private long tokenExpirationMs;
 
     @Value("${jwt.secret}")
     private String secret;
@@ -57,7 +58,7 @@ public class TokenProvider implements Serializable {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + tokenExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 
