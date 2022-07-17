@@ -114,9 +114,7 @@ public class ComplexService {
                 .id(complex.getId())
                 .name(complex.getName())
                 .description(complex.getDescription())
-                .image(complex.getImagePath() != null
-                        ? Helpers.resourceToBase64(FileDownloadUtil.getFileAsResource(complex.getImagePath()))
-                        : null)
+                .image(Helpers.setFileUrl(complex.getImagePath()))
                 .cityId(complex.getCity().getId())
                 .city(complex.getCity().getName())
                 .build();

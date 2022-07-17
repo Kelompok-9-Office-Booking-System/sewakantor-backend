@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class LoginResponse {
     private String username;
+    private String name;
+    private String firstName;
+    private String lastName;
     private String email;
     private Integer roleId;
     private String role;

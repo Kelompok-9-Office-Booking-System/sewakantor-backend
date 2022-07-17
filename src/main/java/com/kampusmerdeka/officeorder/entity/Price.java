@@ -5,24 +5,32 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "prices")
 public class Price extends BaseEntity {
 
-    enum Type {
-        HOURLY,
-        DAILY,
-        WEEKLY,
-        MONTHLY,
-        YEARLY
+    public enum Type {
+        HOURLY("Hour"),
+        DAILY("Day"),
+        WEEKLY("Week"),
+        MONTHLY("Month"),
+        YEARLY("Year");
+
+        public String label;
+
+        Type(String label) {
+            this.label = label;
+        }
     }
 
     @Enumerated
@@ -31,7 +39,8 @@ public class Price extends BaseEntity {
     @Column(name = "price")
     private Long price;
 
-    @ManyToOne
     @JoinColumn(name = "unit_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Unit unit;
 }

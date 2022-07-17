@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -17,11 +19,13 @@ import javax.persistence.*;
 @Table(name = "building_facilities")
 public class BuildingFacility extends BaseEntity{
 
-    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "building_id")
     private Building building;
 
-    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "facility_id")
     private Facility facility;
 }

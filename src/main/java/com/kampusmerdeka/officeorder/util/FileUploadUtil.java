@@ -3,6 +3,7 @@ package com.kampusmerdeka.officeorder.util;
 import com.kampusmerdeka.officeorder.exception.FileStorageException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,6 +37,7 @@ public class FileUploadUtil {
         }
 
         String fileCode = RandomStringUtils.randomAlphanumeric(8);
+        fileName = StringUtils.substring(fileName.replace(" ", "-"), fileName.length() - 32);
 
         try (InputStream inputStream = multipartFile.getInputStream()) {
             Path filePath = Paths.get(directory).resolve(fileCode + "-" + fileName);

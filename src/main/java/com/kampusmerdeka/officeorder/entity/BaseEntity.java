@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
 
