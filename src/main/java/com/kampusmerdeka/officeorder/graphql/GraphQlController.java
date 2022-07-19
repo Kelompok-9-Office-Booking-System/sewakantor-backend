@@ -2,8 +2,7 @@ package com.kampusmerdeka.officeorder.graphql;
 
 import com.kampusmerdeka.officeorder.dto.repsonse.ConversationResponse;
 import com.kampusmerdeka.officeorder.dto.repsonse.MessageResponse;
-import com.kampusmerdeka.officeorder.dto.request.AdminMessageRequest;
-import com.kampusmerdeka.officeorder.dto.request.CustomerMessageRequest;
+import com.kampusmerdeka.officeorder.dto.request.MessageRequest;
 import com.kampusmerdeka.officeorder.service.GraphQLChatService;
 import com.netflix.graphql.dgs.DgsSubscription;
 import org.reactivestreams.Publisher;
@@ -38,12 +37,12 @@ public class GraphQlController {
     }
 
     @MutationMapping(name = "customerSendMessage")
-    public MessageResponse customerSendMessage(@Argument("input") CustomerMessageRequest request) {
+    public MessageResponse customerSendMessage(@Argument("input") MessageRequest request) {
         return chatService.sendMessage(request);
     }
 
     @MutationMapping(name = "adminSendMessage")
-    public MessageResponse adminSendMessage(@Argument("input") AdminMessageRequest request) {
+    public MessageResponse adminSendMessage(@Argument("input") MessageRequest request) {
         return chatService.sendMessage(request);
     }
 

@@ -10,9 +10,13 @@ import javax.validation.constraints.Size;
 
 @Data
 public class UserUpdateRequest {
-    @NotNull(message = "name is requuired")
-    @NotBlank(message = "name is requuired")
-    private String name;
+    @NotNull(message = "first name requuired")
+    @NotBlank(message = "first name requuired")
+    private String firstName;
+
+    @NotNull(message = "last name requuired")
+    @NotBlank(message = "last name requuired")
+    private String lastName;
 
     @NotNull(message = "username is requuired")
     @NotBlank(message = "username is requuired")

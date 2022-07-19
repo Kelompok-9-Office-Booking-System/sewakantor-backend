@@ -35,7 +35,8 @@ public class UserService {
             return ResponseUtil.badRequest("username already exist");
 
         UserAdmin userAdmin = UserAdmin.builder()
-                .name(request.getName())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
                 .username(request.getUsername())
                 .role(User.Role.valueOf(request.getRole()))
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -50,7 +51,8 @@ public class UserService {
                 UserResponse.builder()
                         .id(userAdmin.getId())
                         .username(userAdmin.getUsername())
-                        .name(userAdmin.getName())
+                        .firstName(userAdmin.getFirstName())
+                        .lastName(userAdmin.getLastName())
                         .role(userAdmin.getRole())
                         .roleLabel(userAdmin.getRole().name())
                         .avatar(Helpers.setFileUrl(userAdmin.getAvatar()))
@@ -64,7 +66,8 @@ public class UserService {
                 UserResponse.builder()
                         .id(userAdmin.getId())
                         .username(userAdmin.getUsername())
-                        .name(userAdmin.getName())
+                        .firstName(userAdmin.getFirstName())
+                        .lastName(userAdmin.getLastName())
                         .role(userAdmin.getRole())
                         .roleLabel(userAdmin.getRole().name())
                         .avatar(Helpers.setFileUrl(userAdmin.getAvatar()))
@@ -83,7 +86,8 @@ public class UserService {
         return ResponseUtil.ok("user by id", UserResponse.builder()
                 .id(userAdmin.getId())
                 .username(userAdmin.getUsername())
-                .name(userAdmin.getName())
+                .firstName(userAdmin.getFirstName())
+                .lastName(userAdmin.getLastName())
                 .role(userAdmin.getRole())
                 .roleLabel(userAdmin.getRole().name())
                 .avatar(Helpers.setFileUrl(userAdmin.getAvatar()))
@@ -100,8 +104,9 @@ public class UserService {
 
         UserAdmin userAdmin = userAdminOptional.get();
         userAdmin = userAdmin.toBuilder()
-                .name(request.getName())
                 .username(request.getUsername())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
                 .role(User.Role.valueOf(request.getRole()))
                 .password(passwordEncoder.encode(request.getPassword()))
                 .avatar(request.getAvatar() == null
@@ -115,7 +120,8 @@ public class UserService {
                 UserResponse.builder()
                         .id(userAdmin.getId())
                         .username(userAdmin.getUsername())
-                        .name(userAdmin.getName())
+                        .firstName(request.getFirstName())
+                        .lastName(request.getLastName())
                         .role(userAdmin.getRole())
                         .roleLabel(userAdmin.getRole().name())
                         .avatar(Helpers.setFileUrl(userAdmin.getAvatar()))
@@ -125,7 +131,7 @@ public class UserService {
 
     public ResponseEntity<Object> deletetOne(Long id) {
         Optional<UserAdmin> userAdminOptional = userRepository.findById(id);
-        if (userAdminOptional.isEmpty())  return ResponseUtil.notFound("user not found");
+        if (userAdminOptional.isEmpty()) return ResponseUtil.notFound("user not found");
 
         UserAdmin userAdmin = userAdminOptional.get();
 

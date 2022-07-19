@@ -2,8 +2,7 @@ package com.kampusmerdeka.officeorder.service;
 
 import com.kampusmerdeka.officeorder.dto.repsonse.ConversationResponse;
 import com.kampusmerdeka.officeorder.dto.repsonse.MessageResponse;
-import com.kampusmerdeka.officeorder.dto.request.AdminMessageRequest;
-import com.kampusmerdeka.officeorder.dto.request.CustomerMessageRequest;
+import com.kampusmerdeka.officeorder.dto.request.MessageRequest;
 import com.kampusmerdeka.officeorder.entity.*;
 import com.kampusmerdeka.officeorder.repository.ConversationRepository;
 import com.kampusmerdeka.officeorder.repository.MessageRepository;
@@ -82,6 +81,7 @@ public class GraphQLChatService {
 
         return result;
     }
+
     public Publisher<MessageResponse> getMessagesStreamByConversationId(Long conversationId) {
         Iterable<Message> messageIterable = messageRepository.findByConversationId(conversationId);
 
@@ -90,7 +90,8 @@ public class GraphQLChatService {
 
         return (Publisher<MessageResponse>) result;
     }
-    public MessageResponse sendMessage(CustomerMessageRequest request) {
+
+    public MessageResponse sendMessage(MessageRequest request) {
         UserCustomer me = authService.me();
 
         Optional<Conversation> conversationOptional = conversationRepository.findById(me.getId());
@@ -115,12 +116,10 @@ public class GraphQLChatService {
         return getResponse(message);
     }
 
-    public MessageResponse sendMessage(AdminMessageRequest request) {
+    public MessageResponse sendMessage(Long conversationId, MessageRequest request) {
         UserAdmin me = authService.me();
 
-        System.out.println(request.getText());
-        System.out.println(request.getConversationId());
-        Optional<Conversation> conversationOptional = conversationRepository.findById(request.getConversationId());
+        Optional<Conversation> conversationOptional = conversationRepository.findById(conversationId);
         Conversation conversation = conversationOptional.get();
 
         Message message = Message.builder()

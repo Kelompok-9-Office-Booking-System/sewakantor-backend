@@ -2,7 +2,7 @@ package com.kampusmerdeka.officeorder.service;
 
 import com.kampusmerdeka.officeorder.dto.repsonse.ConversationResponse;
 import com.kampusmerdeka.officeorder.dto.repsonse.MessageResponse;
-import com.kampusmerdeka.officeorder.dto.request.CustomerMessageRequest;
+import com.kampusmerdeka.officeorder.dto.request.MessageRequest;
 import com.kampusmerdeka.officeorder.entity.Conversation;
 import com.kampusmerdeka.officeorder.entity.Message;
 import com.kampusmerdeka.officeorder.entity.User;
@@ -36,7 +36,7 @@ public class ChatService {
         return ResponseUtil.ok("count message", ((Collection) messageRepository.findByConversationIdAndIsReadFalse(me.getId())).size());
     }
 
-    public ResponseEntity<Object> getConversations() {
+    public ResponseEntity<Object> getAllChat() {
         User me = authService.me();
         List<ConversationResponse> result = new ArrayList<>();
         conversationRepository.getConversations(me).forEach(conversationResponse -> {
@@ -51,7 +51,16 @@ public class ChatService {
         return ResponseUtil.ok("list conversation", result);
     }
 
-    public ResponseEntity<Object> getMessages() {
+    public ResponseEntity<Object> getOneForAdmin(Long id) {
+        Iterable<Message> messageIterable = messageRepository.findByConversationId(id);
+
+        List<MessageResponse> result = new ArrayList<>();
+        messageIterable.forEach(message -> result.add(getResponse(message)));
+
+        return ResponseUtil.ok("list message", result);
+    }
+
+    public ResponseEntity<Object> getOneForCustomer() {
         UserCustomer me = authService.me();
 
         Iterable<Message> messageIterable = messageRepository.findByConversationId(me.getId());
@@ -62,7 +71,7 @@ public class ChatService {
         return ResponseUtil.ok("list message", result);
     }
 
-    public ResponseEntity<Object> sendMessage(CustomerMessageRequest request) {
+    public ResponseEntity<Object> sendMessage(MessageRequest request) {
         UserCustomer me = authService.me();
 
         Optional<Conversation> conversationOptional = conversationRepository.findById(me.getId());
@@ -75,6 +84,25 @@ public class ChatService {
             conversation = conversationRepository.saveAndFlush(conversation);
         }
 
+        Message message = Message.builder()
+                .conversation(conversation)
+                .text(request.getText())
+                .sender(me)
+                .isRead(false)
+                .build();
+
+        messageRepository.save(message);
+
+        return ResponseUtil.ok("message sent successfully");
+    }
+
+    public ResponseEntity<Object> sendMessage(Long conversationId, MessageRequest request) {
+        User me = authService.me();
+
+        Optional<Conversation> conversationOptional = conversationRepository.findById(conversationId);
+        if (conversationOptional.isEmpty()) return ResponseUtil.notFound("conversation not found");
+
+        Conversation conversation = conversationOptional.get();
         Message message = Message.builder()
                 .conversation(conversation)
                 .text(request.getText())
@@ -100,3 +128,4 @@ public class ChatService {
     }
 
 }
+

@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserResponse {
     private Long id;
-    private String name;
+    private String firstName;
+    private String lastName;
     private String username;
     private User.Role role;
     private String roleLabel;

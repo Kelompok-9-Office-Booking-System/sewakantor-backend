@@ -65,7 +65,6 @@ public class AuthService {
                 user = userAdminOptional.get();
             }
 
-
             UserDetails userDetails = userDetailService.loadUserByUsername(username);
 
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
@@ -74,19 +73,13 @@ public class AuthService {
 
             User.Role role = User.Role.valueOf(userDetails.getAuthorities().stream().findFirst().get().toString());
 
-            String name = null;
-            String firstName = null;
-            String lastName = null;
             String email = null;
             username = null;
             if (user instanceof UserAdmin) {
                 UserAdmin userAdmin = (UserAdmin) user;
                 username = userAdmin.getUsername();
-                name = userAdmin.getName();
             } else {
                 UserCustomer userCustomer = (UserCustomer) user;
-                firstName = userCustomer.getFirstName();
-                lastName = userCustomer.getLastName();
                 email = userCustomer.getEmail();
             }
             LoginResponse response = LoginResponse.builder()
@@ -94,9 +87,8 @@ public class AuthService {
                     .token(token)
                     .email(email)
                     .username(username)
-                    .name(name)
-                    .firstName(firstName)
-                    .lastName(lastName)
+                    .firstName(user.getFirstName())
+                    .lastName(user.getLastName())
                     .roleId(role.ordinal())
                     .role(role.name())
                     .build();
