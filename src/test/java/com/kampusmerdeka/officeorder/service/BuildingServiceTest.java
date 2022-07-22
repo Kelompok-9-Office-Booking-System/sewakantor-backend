@@ -4,10 +4,7 @@ import com.kampusmerdeka.officeorder.dto.common.ApiResponse;
 import com.kampusmerdeka.officeorder.dto.repsonse.BuildingResponse;
 import com.kampusmerdeka.officeorder.dto.request.BuildingRequest;
 import com.kampusmerdeka.officeorder.entity.*;
-import com.kampusmerdeka.officeorder.repository.BuildingImageRepository;
-import com.kampusmerdeka.officeorder.repository.BuildingRepository;
-import com.kampusmerdeka.officeorder.repository.ComplexRepository;
-import com.kampusmerdeka.officeorder.repository.FacilityRepository;
+import com.kampusmerdeka.officeorder.repository.*;
 import com.kampusmerdeka.officeorder.util.FileDeleteUtil;
 import com.kampusmerdeka.officeorder.util.FileDownloadUtil;
 import com.kampusmerdeka.officeorder.util.FileUploadUtil;
@@ -174,7 +171,15 @@ class BuildingServiceTest {
                 .building(building)
                 .build();
 
+        BuildingImage buildingImage = BuildingImage.builder()
+                .id(1L)
+                .name("ANYTHING")
+                .building(building)
+                .path("path-to-file.jpg")
+                .build();
+
         building.setBuildingFacilities(Set.of(buildingFacility));
+        building.setBuildingImages(Set.of(buildingImage));
 
         when(complexRepository.findById(anyLong())).thenReturn(Optional.of(complex));
         when(facilityRepository.findById(anyLong())).thenReturn(Optional.of(facility));
