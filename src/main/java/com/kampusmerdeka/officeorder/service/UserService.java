@@ -1,5 +1,6 @@
 package com.kampusmerdeka.officeorder.service;
 
+import com.kampusmerdeka.officeorder.dto.repsonse.DropdownResponse;
 import com.kampusmerdeka.officeorder.dto.repsonse.UserResponse;
 import com.kampusmerdeka.officeorder.dto.request.UserRequest;
 import com.kampusmerdeka.officeorder.dto.request.UserUpdateRequest;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -139,5 +141,12 @@ public class UserService {
 
         FileDeleteUtil.delete(userAdmin.getAvatar());
         return ResponseUtil.ok("user deleted successfully");
+    }
+
+    public ResponseEntity<Object> getRoles() {
+        List<DropdownResponse<User.Role>> result = new ArrayList<>();
+        Arrays.stream(User.Role.values()).forEach(role -> result.add(new DropdownResponse<>(role, role.name())));
+
+        return ResponseUtil.ok("user roles dropdown", result);
     }
 }

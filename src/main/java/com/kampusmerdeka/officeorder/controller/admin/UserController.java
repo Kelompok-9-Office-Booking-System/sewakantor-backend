@@ -43,4 +43,9 @@ public class UserController {
     public ResponseEntity<Object> deleteOne(@PathVariable(name = "id") Long id) {
         return userService.deletetOne(id);
     }
+
+    @GetMapping(value = "roles")
+    public ResponseEntity<Object> roles() {
+        return userService.getRoles();
+    }
 }
