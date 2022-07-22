@@ -28,8 +28,8 @@ public class BuildingRequest {
     @NotBlank(message = "address must not be empty")
     private String address;
 
-    @NotNull(message = "city id must not be null")
-    @Min(value = 0, message = "invalid value of city id")
+    @NotNull(message = "complex id must not be null")
+    @Min(value = 0, message = "invalid value of complex id")
     private Long complexId;
 
     private List<MultipartFile> images;

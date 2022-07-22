@@ -35,8 +35,9 @@ public class Helpers {
     @SneakyThrows
     public static String setFileUrl(String path) {
         if (path == null) return null;
+        path = path.replace("\\", "/");
         String resourcePath = String.format("%s/v1/resources%s",
-                contextPath,
+                contextPath.length() > 1 ? contextPath : "",
                 path.startsWith("/") ? path : '/' + path);
         return new URL(protocol, host, port, resourcePath).toString();
     }

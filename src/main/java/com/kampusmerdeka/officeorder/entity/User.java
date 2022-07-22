@@ -25,6 +25,12 @@ public abstract class User extends BaseEntity {
         CUSTOMER
     }
 
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
     @Column(name = "password", nullable = false)
     private String password;
 

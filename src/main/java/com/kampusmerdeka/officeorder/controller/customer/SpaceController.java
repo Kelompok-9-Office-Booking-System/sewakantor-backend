@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("v1/customer/spaces")
-public class CustomerSpaceController {
+public class SpaceController {
     @Autowired
     private SpaceService spaceService;
 

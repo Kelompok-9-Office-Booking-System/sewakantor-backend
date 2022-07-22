@@ -1,10 +1,7 @@
 package com.kampusmerdeka.officeorder.service;
 
 import com.kampusmerdeka.officeorder.dto.repsonse.*;
-import com.kampusmerdeka.officeorder.entity.Building;
-import com.kampusmerdeka.officeorder.entity.Facility;
-import com.kampusmerdeka.officeorder.entity.Price;
-import com.kampusmerdeka.officeorder.entity.Unit;
+import com.kampusmerdeka.officeorder.entity.*;
 import com.kampusmerdeka.officeorder.repository.BuildingRepository;
 import com.kampusmerdeka.officeorder.util.Helpers;
 import com.kampusmerdeka.officeorder.util.ResponseUtil;
@@ -27,7 +24,9 @@ public class SpaceService {
         List<SpaceResponse> result = new ArrayList<>();
         Iterable<Building> buildingIterable = buildingRepository.findAll();
 
-        buildingIterable.forEach(building -> result.add(getResponse(building)));
+        buildingIterable.forEach(building -> {
+            if (!building.getUnits().isEmpty()) result.add(getResponse(building));
+        });
 
         return ResponseUtil.ok("all space", result);
     }
@@ -72,7 +71,7 @@ public class SpaceService {
             Integer value = 0;
 
             public Double getRating() {
-                return BigDecimal.valueOf(this.value.doubleValue() / this.count).setScale(1, RoundingMode.HALF_UP).doubleValue();
+                return (count == 0 && value == 0) ? 0.0 : BigDecimal.valueOf(this.value.doubleValue() / this.count).setScale(1, RoundingMode.HALF_UP).doubleValue();
             }
         };
         Set<Long> price = new HashSet<>();
@@ -86,12 +85,16 @@ public class SpaceService {
 
         // get nearby places
         List<NearbyPlaceResponse> nearbyPlaceResponses = new ArrayList<>();
-        building.getNearbyPlaces().forEach(nearbyPlace -> nearbyPlaceResponses.add(
-                NearbyPlaceResponse.builder()
+        Set<NearbyPlace> nearbyPlaces = building.getNearbyPlaces();
+        if (!nearbyPlaces.isEmpty()) {
+            for (NearbyPlace nearbyPlace : nearbyPlaces) {
+                nearbyPlaceResponses.add(NearbyPlaceResponse.builder()
                         .id(nearbyPlace.getId())
                         .name(nearbyPlace.getName())
-                        .distance(String.format("%.1f km", nearbyPlace.getDistance())).build()));
-
+                        .distance(String.format("%.1f km", nearbyPlace.getDistance()))
+                        .build());
+            }
+        }
         return SpaceResponse.builder()
                 .id(building.getId())
                 .name(building.getName())

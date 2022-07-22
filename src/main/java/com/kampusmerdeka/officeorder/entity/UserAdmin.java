@@ -8,16 +8,13 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @DiscriminatorValue(value = "ADMIN")
 @PrimaryKeyJoinColumn(name = "user_id", referencedColumnName = "id")
 @Table(name = "admin")
 public class UserAdmin extends User {
-
-    @Column(name = "name", nullable = false)
-    private String name;
 
     @Column(name = "username", unique = true, nullable = false)
     private String username;
