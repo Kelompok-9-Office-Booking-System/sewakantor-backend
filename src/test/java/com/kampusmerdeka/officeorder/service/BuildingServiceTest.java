@@ -43,6 +43,8 @@ class BuildingServiceTest {
     @MockBean
     private FacilityRepository facilityRepository;
     @MockBean
+    private BuildingFacilityRepository buildingFacilityRepository;
+    @MockBean
     private BuildingImageRepository buildingImageRepository;
     @Autowired
     private BuildingService buildingService;
@@ -184,6 +186,8 @@ class BuildingServiceTest {
         when(complexRepository.findById(anyLong())).thenReturn(Optional.of(complex));
         when(facilityRepository.findById(anyLong())).thenReturn(Optional.of(facility));
         when(buildingRepository.saveAndFlush(any(Building.class))).thenReturn(building);
+        when(buildingImageRepository.findByBuilding(any(Building.class))).thenReturn(List.of(buildingImage));
+        when(buildingFacilityRepository.findByBuilding(any(Building.class))).thenReturn(List.of(buildingFacility));
 
         ResponseEntity<Object> responseEntity = buildingService.createOne(request);
 
